@@ -1,0 +1,162 @@
+Game Gear Micro Save Data Information (V1.3) - by eddebaby
+==========================================================
+
+The Game Gear Micro (GGM) stores:
+ * All of the SRAM data (i.e. data that would have been 
+    saved on to the original Game Gear cartridge)
+ * And save states (4 save state slots per game)
+for all of the games on the GGM inside a file called "save.bin".
+
+For the original firmware: save.bin is stored within
+ nandd (mount /dev/nandd /mnt/UDISK) within /usr/games/save
+
+For Augen's custom firmware: save.bin is stored within 
+ nande (mount /dev/nande /mnt/UDISK/system) within /mnt/UDISK/system/save
+
+Augen's CFW tool can also be used to transfer save data to and from the GGM,
+it allows you to save the data as a .ggmsav file.
+
+These .ggmsav files are 1:1 copies of save.bin
+
+
+SRAM data stored on the GGM is equivalent to SRAM data from most emulators, 
+or taken from a real cartridge with a copier (usually .srm, or .sav files). 
+
+I have not investigated the format of the save states, though I imagine they 
+are similar to other emulator's save states too.
+
+
+save.bin
+--------
+
+save.bin consists of 62 slots each of length 0x20000.
+
+Each slot can contain either SRAM data, or data for a single save state.
+
+Save data from any game can be in any slot. Save data is matched to the 
+correct game using the Save ID described in the next section.
+
+When new save data is created on the GGM, it is placed in the first empty 
+slot.
+
+If there are no empty slots, the oldest data belonging to the current Save ID 
+is overwritten. The Version Number (described in the next section) is used to 
+determine the oldest slot.
+
+If there are no empty slots, and no save data exists for the current Save ID, 
+the oldest save data of another Save ID is overwritten (need to confirm the 
+specifics here).
+
+Games that do not use SRAM still create a (in this case empty) slot dedicated 
+to SRAM.
+
+For each Save ID, only the save data with the highest Version Number is loaded 
+by the GGM.
+
+Due to the above, having multiple firmwares that you can switch between will 
+"corrupt" the SRAM data - e.g. playing Game 1 from firmware 1, and then 
+playing Game 1 on firmware 2 will replace the latest SRAM data of the first 
+game with the second. Save States will work OK with multiple firmwares, as long 
+as you don't overwrite the wrong slot by accident. You should be able to recover 
+your save by finding and older version of the save data that is correct.
+
+Each slot is validated before being loaded by the GGM:
+ A xxHash64 hash key of the current save slot is calculated by the GGM and 
+ compared to a hash hey stored in the first 8 bytes of the current save slot. 
+ The data is considered corrupt if the hash keys do not match, the data 
+ will be ignored by the GGM, and the latest non-corrupt data will be loaded. 
+ If the hash keys match, the save data is loaded by the GGM, regardless of 
+ whether it is suitable for the chosen game or not.
+
+Follow these links for more info on xxHash (note that the GGM uses XXH64):
+ - https://github.com/Cyan4973/xxHash
+ - https://cyan4973.github.io/xxHash/
+
+
+Save Slot Format
+----------------
+
+Each slot is made of a header:
+
+Data type            Length    Description
+------------------   -------   ------------------------------------------------
+xxHash64 File Hash : 8 Bytes - A file hash calculated from the remaining 
+                               0x1FFF8 bytes of data in the current slot
+
+Save ID            : 4 Bytes - The game and the SRAM/save-state slot that the 
+                               save data belongs to (see table below)
+
+Version Number     : 4 Bytes - Count from 0; increment by 1 every time new data 
+                               is saved by the GGM.
+
+then, if the current slot contains SRAM data...
+
+Data type            Length              Description
+------------------   -------             --------------------------------------
+SRAM size          : 4 Bytes           - Size of SRAM data in bytes
+
+SRAM data          : {SRAM Size} Bytes - SRAM data (padded with "0xFF" if it 
+                                         doesn't fill the entire capacity)
+
+else, if the current slot contains save state data...
+
+Data type            Length     Description
+------------------   -------    -----------
+Save State data    : X* Bytes - Save state data (padded with "0x00") 
+                              
+* Where X is the (currently unknown) length of save state data
+  (which must be 0x1FFF0 or less)
+
+
+Save ID table
+-------------
+
+This combined number stores:
+ * The Game ID (counting from 0)
+ * The Save Slot ID (counting from 1)
+ * If the Save Slot ID = 0, then this indicates that this is a SRAM slot
+
+To get the combined number you simply add the Save Slot ID to (the Game ID * 5)
+
+This table shows all of the possible values for 6 games and 4 save state slots:
+
+Value Game SRAM Save Slot
+----- ---- ---- ---------
+0x00  1    Y    N
+0x01  1    N    1
+0x02  1    N    2
+0x03  1    N    3
+0x04  1    N    4
+0x05  2    Y    N
+0x06  2    N    1
+0x07  2    N    2
+0x08  2    N    3
+0x09  2    N    4
+0x0A  3    Y    N
+0x0B  3    N    1
+0x0C  3    N    2
+0x0D  3    N    3
+0x0E  3    N    4
+0x0F  4    Y    N
+0x10  4    N    1
+0x11  4    N    2
+0x12  4    N    3
+0x13  4    N    4
+0x14  5    Y    N
+0x15  5    N    1
+0x16  5    N    2
+0x17  5    N    3
+0x18  5    N    4
+0x19  6    Y    N
+0x1A  6    N    1
+0x1B  6    N    2
+0x1C  6    N    3
+0x1D  6    N    4
+
+
+TODO
+----
+* investigate save state format
+* confirm size of X
+* confirm how GGM decides what stale data to overwrite when there is no slot 
+  for the current Save ID
