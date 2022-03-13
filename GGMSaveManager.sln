@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGMSaveManager", "GGMSaveManager\GGMSaveManager.csproj", "{ACE56634-9631-40FC-B0D6-FB5E2F9569CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACE56634-9631-40FC-B0D6-FB5E2F9569CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACE56634-9631-40FC-B0D6-FB5E2F9569CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACE56634-9631-40FC-B0D6-FB5E2F9569CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACE56634-9631-40FC-B0D6-FB5E2F9569CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28F58725-5B9D-4FBD-A696-538C7463AC70}
+	EndGlobalSection
+EndGlobal
