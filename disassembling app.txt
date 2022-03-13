@@ -1,0 +1,9 @@
+Use Ghidra to open app: Options, load external libraries (add these 4 files below to same directory as app [copied from GGM])
+
+./usr/lib/libstdc++.so.6
+./lib/libgcc_s.so.1
+./usr/lib/libc.so
+./usr/lib/libasound.so.2
+
+Augen's mod: nande app
+Vanilla firmware: nandd /usr/games/app
