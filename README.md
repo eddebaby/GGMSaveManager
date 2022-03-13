@@ -62,21 +62,17 @@ You can also export SRAM data from the GGM save data, for use with: emulators/fl
 Expected file types
 ===================
 
-Expects either a .ggmsav file from Augen's GGM CFW Tool, 
-or a save.bin file extracted from the Game Gear Micro 
-(these both are the the same 7.75MB file)
+Expects either a **.ggmsav** file from Augen's GGM CFW Tool, or a **save.bin** file extracted from the Game Gear Micro (these both are the the same 7.75MB file)
 
 For the list of 6 games:
-expects a romlist.txt file from Augen's GGM CFW Tool, 
-which is just a list of 6 .gg files (So you can easily create your own)
+expects a **romlist.txt** file from Augen's GGM CFW Tool, which is just a list of 6 .gg files (So you can easily create your own)
 
 See the "example data" folder for examples of both file types.
 
 List of Save Slots
 ==================
 
-Each of the 62 save slots available are put in a list, where each line 
-represents a single slot, which can be either SRAM or a save state.
+Each of the 62 save slots available are put in a list, where each line represents a single slot, which can be either SRAM or a save state.
 
 
 for a slot with SRAM data, the format is like this:
@@ -89,32 +85,25 @@ for a slot with a save state, the format is like this:
   Slot Number : State *Save State Number* (Version Number) - Game Name/Number
 
 
-Use the "Load Game Names" feature to replace 'Game 1' (etc) with the names of 
-the games you are using.
+Use the "Load Game Names" feature to replace 'Game 1' (etc) with the names of the games you are using.
 
-Clicking a line in the list will select the corresponding save slot; this 
-activates the function buttons for that slot.
+Clicking a line in the list will select the corresponding save slot; this activates the function buttons for that slot.
 
 You can Copy and Paste between 2 different open save data files.
 
  Line colour/boldness
  --------------------
 
- - If the line is in bold, then the corresponding slot will be loaded by the 
-   GGM for that Save ID.
+ - If the line is in **bold**, then the corresponding slot will be loaded by the GGM for that Save ID.
 
- - If the line is not in bold, then the corresponding slot is old save data, 
-   and will not be loaded by the GGM. 
-   Increasing the version number to be the current highest (turning it bold) 
-   will cause the GGM to use this slot by preference.
+ - If the line is not in bold, then the corresponding slot is old save data, and will not be loaded by the GGM. 
+   Increasing the version number to be the current highest (turning it bold) will cause the GGM to use this slot by preference.
 
- - If the line is in Red, then the slot is corrupt (checksum does not match 
-   data) This slot will be rejected by the GGM.
+ - If the line is in Red, then the slot is corrupt (hash does not match data) This slot will be rejected by the GGM.
 
 
 Notes
 =====
  * save ID is not changed when importing SRAM
  * SRAM size is not changed when importing SRAM
- * see "save format.txt" for details on how the Game Gear Micro stores the SRAM 
-   and save state data for it's games.
+ * see "save format.txt" for details on how the Game Gear Micro stores the SRAM and save state data for it's games.
