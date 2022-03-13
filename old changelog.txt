@@ -1,0 +1,46 @@
+0.9.2
+
+bug fixes:
+ * fixed crash if trying to open a file locked by another application 
+   (Now shows error message)
+ * pasting a corrupt slot now correctly keeps the slot flagged as corrupt
+
+new/changed features:
+ * data validation is done via xxHash64 File Hash Algorithm - can now edit 
+   contents of SRAM data :D
+ * corrupt slots (shown in red) are now judged to be corrupt if the stored 
+   hash does not match the calculated hash (rather than the old 0.9.1 method 
+   i.e. if hash is equal to zero)
+ * added button to change SRAM size of the chosen slot
+ * added button to recalculate hash of current slot
+ * added messages if imported SRAM data is of a different size to the SRAM 
+   data in the chosen slot
+ * added message allowing user to force imported SRAM data to be the latest 
+   version
+ * changed "Validation" checkbox to a toggle for Advanced features
+ * added Save As feature
+ * added SRAM size to each line in the list which contains SRAM data
+ * can change Game Number of empty slot (i.e. create a blank SRAM slot for a 
+   chosen game)
+
+
+0.9.1
+
+bug fixes:
+ * fixed crash when trying to load data that includes save state slot 4 for 
+   game 6
+
+new features:
+ * added ability to open/edit 2nd File, this allows user to copy & paste slots 
+   between different save.bin files.
+
+0.9
+
+initial version:
+ * can open and save any save.bin or *.ggmsav
+ * can copy/paste/clear slots in save.bin
+ * can export SRAM data for use in emulators (etc)
+ * data validation is unknown - untick "Validation" to test advanced features 
+   that will currently corrupt the slot:
+    > import SRAM
+    > Change Game number/Save slot number/version number
