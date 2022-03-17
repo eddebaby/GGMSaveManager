@@ -66,24 +66,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="FileData.cs" />
+    <Compile Include="FileOperations.cs" />
+    <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="GGMSaveBin.cs" />
+    <Compile Include="FormData.cs" />
+    <Compile Include="FormOperations.cs" />
+    <Compile Include="GGMSaveFormat\GGMSaveBin.cs" />
     <Compile Include="ImportedGameNames.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SaveData.cs" />
-    <Compile Include="SaveSlot.cs" />
-    <Compile Include="SaveState.cs" />
-    <Compile Include="SRAMData.cs" />
-    <Compile Include="Toolkit.cs" />
-    <Compile Include="XXHash.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="GGMSaveFormat\SaveData.cs" />
+    <Compile Include="GGMSaveFormat\SaveSlot.cs" />
+    <Compile Include="SlotFormControls.cs" />
+    <Compile Include="SlotOperations.cs" />
+    <Compile Include="GGMSaveFormat\XXHash.cs" />
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

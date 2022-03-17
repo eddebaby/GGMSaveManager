@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GGMSaveManager
 {
+    /// <summary>
+    /// save.bin is made of 62 save slots. Each SaveSlot is 0x20000 long (including header).
+    /// </summary>
     class SaveSlot
     {
-        // each slot is 0x20000 long (including header)
         public UInt64 hash = 0; // xxHash64 (hash of the save slot from 0x8 - 0x20000)
         public UInt32 saveID = 0; // can range from 0x00 to 0x1D (+0 for SRAM, +1 for each save slot, +5 per game)
         public UInt32 versionNumber = 0; // incremented each time a new save is created on the GGM
@@ -18,12 +16,14 @@ namespace GGMSaveManager
         public int gameNumber = 1; // from saveID - range: 1-6
         public bool isSRAM = false; // from saveID
         public int saveSlotNumber = 0; // from saveID, only used when isSRAM == false - range: 1-4 (4 save state slots per game)
-        public bool isEmpty = false;
-        public bool isCorrupt = false;
+        public bool isEmpty = false; // an empty slot contains no header or save data and a hash = 0
+        public bool isCorrupt = false; // data is corrupt if stored hash does not match calculated hash
 
+        /// <summary>
+        /// Create a blank SaveSlot object.
+        /// </summary>
         public SaveSlot()
         {
-            // create blank save slot
             isEmpty = true;
             hash = 0;
             saveID = 0;
@@ -37,6 +37,10 @@ namespace GGMSaveManager
             isCorrupt = false;
         }
 
+        /// <summary>
+        /// Create a SaveSlot object from a byte array containing raw data
+        /// from a save.bin file.
+        /// </summary>
         public SaveSlot(byte[] saveSlotData)
         {
             hash = BitConverter.ToUInt64(saveSlotData, 0);
@@ -77,11 +81,12 @@ namespace GGMSaveManager
                 else isCorrupt = true;
             }
         }
-
+        
+        /// <summary>
+        /// Create a new SaveSlot object by copying properties an existing SaveSlot.
+        /// </summary>
         public SaveSlot(SaveSlot sourceSaveSlot)
         {
-            // copy from source save slot to this one
-
             hash = sourceSaveSlot.hash;
             saveID = sourceSaveSlot.saveID;
             versionNumber = sourceSaveSlot.versionNumber;
@@ -97,6 +102,10 @@ namespace GGMSaveManager
             isCorrupt = sourceSaveSlot.isCorrupt;
         }
 
+        /// <summary>
+        /// Get the Game number and Save State Slot number of this SaveSlot
+        /// from a given saveID.
+        /// </summary>
         private void GetGameAndSaveSlotNumber(UInt32 saveID)
         {
             gameNumber = ((int)saveID / 5) + 1;
@@ -105,6 +114,9 @@ namespace GGMSaveManager
             else isSRAM = false;
         }
 
+        /// <summary>
+        /// Returns the Save ID of this SaveSlot from a given Game number and Save State Slot number.
+        /// </summary>
         private static UInt32 SetSaveID(int gameNumber, int saveSlotNumber)
         {
             UInt32 newSaveID = 0;
@@ -113,6 +125,10 @@ namespace GGMSaveManager
             return newSaveID;
         }
 
+        /// <summary>
+        /// Returns a byte array of zeroed-out data of a given length.
+        /// Used to pad out data when saving to file.
+        /// </summary>
         public static byte[] ZeroRemainingData(int dataLength, byte value = 0)
         {
             byte[] data = new byte[dataLength];
@@ -123,6 +139,9 @@ namespace GGMSaveManager
             return data;
         }
 
+        /// <summary>
+        /// Returns a complete "save.bin slot" byte array for saving to a file.
+        /// </summary>
         public static byte[] CreateSlotData(SaveSlot saveSlot)
         {
             byte[] data = new byte[GGMSaveBin.slotLength];
@@ -169,6 +188,9 @@ namespace GGMSaveManager
             return data;
         }
 
+        /// <summary>
+        /// Recalculate hash for a given SaveSlot.
+        /// </summary>
         public static void ReCalculateHash(ref SaveSlot saveSlot)
         {
             byte[] saveSlotData = CreateSlotData(saveSlot);
@@ -176,7 +198,10 @@ namespace GGMSaveManager
             saveSlot.hash = newHash;
             saveSlot.isCorrupt = false;
         }
-
+        
+        /// <summary>
+        /// Recalculate hash for this SaveSlot.
+        /// </summary>
         public void ReCalculateHash()
         {
             byte[] saveSlotData = CreateSlotData(this);
@@ -185,12 +210,18 @@ namespace GGMSaveManager
             isCorrupt = false;
         }
 
+        /// <summary>
+        /// Calculate the hash for the given byte array of data.
+        /// </summary>
         private static UInt64 CalculateHash(ref byte[] inputData)
         {
             // Uses xxHash64 algorithm - https://cyan4973.github.io/xxHash/
             return XXHash.xxHash64(ref inputData, GGMSaveBin.hashLength);
         }
 
+        /// <summary>
+        /// Import the given byte array as SRAM data for this SaveSlot.
+        /// </summary>
         public void ImportSRAMData(byte[] inputData)
         {
             if (!isSRAM || isEmpty) return;
@@ -208,6 +239,11 @@ namespace GGMSaveManager
             ReCalculateHash();
         }
 
+        /// <summary>
+        /// Change the Save State Slot number of the Save ID for this SaveSlot.
+        /// Note: setting the Save State Slot number to 0 will convert this
+        /// SaveSlot to SRAM (will it??).
+        /// </summary>
         public void ChangeSaveStateSlot(int slot)
         {
             if (isSRAM || isEmpty) return;
@@ -217,7 +253,10 @@ namespace GGMSaveManager
             saveID = SetSaveID(gameNumber, saveSlotNumber);
             ReCalculateHash();
         }
-
+        
+        /// <summary>
+        /// Change the version number of the Save ID for this SaveSlot.
+        /// </summary>
         public void ChangeVersionNumber(UInt32 version)
         {
             if (isEmpty) return;
@@ -226,6 +265,9 @@ namespace GGMSaveManager
             ReCalculateHash();
         }
 
+        /// <summary>
+        /// Change the game number of the Save ID for this SaveSlot.
+        /// </summary>
         public void ChangeGameNumber(int game)
         {
             //if (isEmpty) return;
@@ -241,6 +283,9 @@ namespace GGMSaveManager
             ReCalculateHash();
         }
 
+        /// <summary>
+        /// Change the stored length of SRAM data for this SaveSlot.
+        /// </summary>
         public void ChangeSRAMLength(UInt32 length)
         {
             if (!isSRAM || isEmpty) return;
