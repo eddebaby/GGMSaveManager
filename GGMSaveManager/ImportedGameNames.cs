@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-
 
 namespace GGMSaveManager
 {
     class ImportedGameNames
     {
+        // adapts a romlist.txt file to an array of 6 game names
+
         public string[] nameList = new string[GGMSaveBin.addressableGames];
 
         public ImportedGameNames()
