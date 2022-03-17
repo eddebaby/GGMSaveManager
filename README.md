@@ -1,4 +1,4 @@
-# GGMSaveManager
+# Game Gear Micro Save Manager
 
 * Uses .net Framework 4.6.1 (Coded in C# with Visual Studio 2017)
 
