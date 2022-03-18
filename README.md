@@ -1,7 +1,7 @@
 # Game Gear Micro Save Manager
 
 
-![An image of GGM Save Manager's main form](https://github.com/eddebaby/GGMSaveManager/blob/main/img/MainForm.png?raw=true)
+![An image of GGM Save Manager's main form](https://github.com/eddebaby/GGMSaveManager/blob/main/img/MainForm.png)
 
 * Uses .net Framework 4.6.1 (Coded in C# with Visual Studio 2017)
 
