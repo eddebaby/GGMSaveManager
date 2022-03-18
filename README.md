@@ -1,5 +1,8 @@
 # Game Gear Micro Save Manager
 
+
+![An image of GGM Save Manager's main form](https://github.com/eddebaby/GGMSaveManager/blob/main/img/MainForm.png?raw=true)
+
 * Uses .net Framework 4.6.1 (Coded in C# with Visual Studio 2017)
 
 This tool allows you to manage your saves for the Game Gear Micro (GGM).
