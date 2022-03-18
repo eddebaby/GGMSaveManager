@@ -502,6 +502,8 @@ namespace GGMSaveManager
         public static void CheckPasteSlot(FileData fileData)
         {
             SlotFormControls slotFormControls = fileData.slotFormControls;
+            GGMSaveBin saveBin = fileData.saveBin;
+            FormData formData = fileData.parentFormData;
             int selectedIndex = slotFormControls.slotList.SelectedIndex;
 
             if (selectedIndex == -1)
@@ -510,9 +512,10 @@ namespace GGMSaveManager
                 return;
             }
 
-            fileData.saveBin.saveSlots[selectedIndex] = SlotOperations.CopySlot(new SaveSlot(fileData.parentFormData.copiedSaveSlot));
-            fileData.parentFormData.dirtyClipboard = slotFormControls.slotPaste.Enabled = false;
-            PopulateSaveSlots(fileData.slotFormControls.slotList, fileData.saveBin, fileData.parentFormData.gameNames, true);
+            saveBin.saveSlots[selectedIndex] = SlotOperations.CopySlot(new SaveSlot(formData.copiedSaveSlot));
+            formData.dirtyClipboard = slotFormControls.slotPaste.Enabled = false;
+            saveBin.RecordLatestSaves();
+            PopulateSaveSlots(slotFormControls.slotList, saveBin, formData.gameNames, true);
             fileData.fileDirty = true;
             CheckFileSlotUI(fileData);
         }

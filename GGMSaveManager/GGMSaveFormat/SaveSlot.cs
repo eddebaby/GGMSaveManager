@@ -248,7 +248,7 @@ namespace GGMSaveManager
         {
             if (isSRAM || isEmpty) return;
 
-            saveSlotNumber = Math.Max(Math.Min(slot, GGMSaveBin.addressableSaveSlots), 0);
+            saveSlotNumber = Math.Max(Math.Min(slot, GGMSaveBin.addressableSaveSlots), 1);
             
             saveID = SetSaveID(gameNumber, saveSlotNumber);
             ReCalculateHash();
