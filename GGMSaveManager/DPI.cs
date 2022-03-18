@@ -29,8 +29,6 @@ namespace GGMSaveManager
             //Call GetDeviceCaps with the Handle to retrieve the Screen Height
             int LogicalScreenHeight = GetDeviceCaps(DeviceContextHandle, (int)DeviceCap.VERTRES);
             int PhysicalScreenHeight = GetDeviceCaps(DeviceContextHandle, (int)DeviceCap.DESKTOPVERTRES);
-            //DisplayInformation ed111 = Windows.Graphics.Display.DisplayInformation;
-            //float ed = GraphicsObject.DpiY;
             //Divide the Screen Heights to get the scaling factor and round it to two decimals
             double ScreenScalingFactor = Math.Round((double)PhysicalScreenHeight / (double)LogicalScreenHeight, 2);
             //If requested as percentage - convert it
@@ -50,10 +48,10 @@ namespace GGMSaveManager
         /// </summary>
         public static int MultiplyByDPIRatio(int input)
         {
-            int newInt = 0; // (int)(input * DPI.GetWindowsScreenScalingFactor(false));
+            int newInt = 0;
             double scalingFactor = DPI.GetWindowsScreenScalingFactor(false);
             newInt = (int)(input * scalingFactor);
-
+            //This will return 1 for Windows 7, but the input value should already be "scaled" from 100%
             return newInt;
         }
     }
