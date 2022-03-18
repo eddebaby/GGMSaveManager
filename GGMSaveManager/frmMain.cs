@@ -163,24 +163,28 @@ namespace GGMSaveManager
         {
             // copy slot in 1st save file
             FormOperations.CheckCopySlot(formData.fileData[0]);
+            FormOperations.CheckFileSlotUI(formData.fileData[1]); // update UI for other file
         }
 
         private void btnCopySlotFile2_Click(object sender, EventArgs e)
         {
             // copy slot in 2nd save file
             FormOperations.CheckCopySlot(formData.fileData[1]);
+            FormOperations.CheckFileSlotUI(formData.fileData[0]); // update UI for other file
         }
 
         private void btnPasteSlotFile1_Click(object sender, EventArgs e)
         {
             // paste to a slot in 1st save file
             FormOperations.CheckPasteSlot(formData.fileData[0]);
+            FormOperations.CheckFileSlotUI(formData.fileData[1]); // update UI for other file
         }
 
         private void btnPasteSlotFile2_Click(object sender, EventArgs e)
         {
             // paste to a slot in 2nd save file
             FormOperations.CheckPasteSlot(formData.fileData[1]);
+            FormOperations.CheckFileSlotUI(formData.fileData[0]); // update UI for other file
         }
 
         private void btnExportSRAMSlotFile1_Click(object sender, EventArgs e)
