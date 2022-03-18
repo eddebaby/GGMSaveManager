@@ -53,7 +53,7 @@ namespace GGMSaveManager
         /// </summary>
         public static Size ScaleSize(Size size, float width, float height)
         {
-            return new Size(size.Width * (int)width, size.Height * (int)height);
+            return new Size((int)(DPI.MultiplyByDPIRatio(size.Width) * width), (int)(DPI.MultiplyByDPIRatio(size.Height) * height));
         }
 
         /// <summary>
@@ -100,8 +100,7 @@ namespace GGMSaveManager
 
 
             int buttonTop = MulDiv(41, dialogUnits.Height, 8);
-            //Command buttons should be 50x14 dlus
-            Size buttonSize = ScaleSize(new Size(72, 27), dialogUnits.Width / 4, dialogUnits.Height / 8);
+            Size buttonSize = ScaleSize(new Size(72, 27), dialogUnits.Width / 7, dialogUnits.Height / 15);
 
             System.Windows.Forms.Button bbOk = new System.Windows.Forms.Button();
             bbOk.Parent = form;

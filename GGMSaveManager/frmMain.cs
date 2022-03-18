@@ -51,6 +51,12 @@ namespace GGMSaveManager
             FormOperations.DrawSlotsListBox(sender, e, formData.fileData[1].saveBin);
         }
 
+        private void listBox_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            // Handle the MeasureItem event for an owner-drawn ListBox, adjust item height to match font size (for DPI).
+            e.ItemHeight = DPI.MultiplyByDPIRatio(((ListBox)sender).Font.Height);
+        }
+
         private void listBoxFile1_SelectedIndexChanged(object sender, EventArgs e)
         {
             FormOperations.CheckFileSlotUI(formData.fileData[0]);

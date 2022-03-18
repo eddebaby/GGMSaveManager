@@ -177,13 +177,14 @@
             // 
             // listBoxFile1
             // 
-            this.listBoxFile1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.listBoxFile1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.listBoxFile1.FormattingEnabled = true;
             this.listBoxFile1.Location = new System.Drawing.Point(12, 148);
             this.listBoxFile1.Name = "listBoxFile1";
             this.listBoxFile1.Size = new System.Drawing.Size(376, 290);
             this.listBoxFile1.TabIndex = 10;
             this.listBoxFile1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxFile1_DrawItem);
+            this.listBoxFile1.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.listBox_MeasureItem);
             this.listBoxFile1.SelectedIndexChanged += new System.EventHandler(this.listBoxFile1_SelectedIndexChanged);
             // 
             // openFileDialog3
@@ -339,13 +340,14 @@
             // 
             // listBoxFile2
             // 
-            this.listBoxFile2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.listBoxFile2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.listBoxFile2.FormattingEnabled = true;
             this.listBoxFile2.Location = new System.Drawing.Point(412, 148);
             this.listBoxFile2.Name = "listBoxFile2";
             this.listBoxFile2.Size = new System.Drawing.Size(376, 290);
             this.listBoxFile2.TabIndex = 26;
             this.listBoxFile2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxFile2_DrawItem);
+            this.listBoxFile2.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.listBox_MeasureItem);
             this.listBoxFile2.SelectedIndexChanged += new System.EventHandler(this.listBoxFile2_SelectedIndexChanged);
             // 
             // txtFile2
