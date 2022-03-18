@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.btnOpenFile1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnNewFile1 = new System.Windows.Forms.Button();
@@ -559,6 +560,7 @@
             this.Controls.Add(this.btnSaveFile1);
             this.Controls.Add(this.btnNewFile1);
             this.Controls.Add(this.btnOpenFile1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.Text = "GGM Save Manager";
             this.ResumeLayout(false);
